@@ -13,9 +13,9 @@ RUN \
 ##INSTALLING JAVA 10.0.1
 ENV JAVA_HOME /usr/local/jdk-10.0.1
 RUN \
-  wget --quiet --no-check-certificate \
-  https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz | \
-  tar -C /usr/local -xfz - && \
+  cd /usr/local && \
+  wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz | tar xfz -
+RUN \
   alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 2 && \
   echo | alternatives --config java && \
   alternatives --install /usr/bin/jar jar $JAVA_HOME/bin/jar 2 && \
@@ -31,7 +31,7 @@ ENV ES_JAVA_OPTS -Xms512m -Xmx512m
 RUN \
   groupadd -g 1000 elasticsearch && \
   adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch
-  mkdir -p /usr/share/elasticsearch/{data,logs,config,config/scripts} && \
+  mkdir -p /usr/share/elasticsearch/{data,logs} && \
   chown -R 1000:1000 /usr/share/elasticsearch && \
   chmod 0775 /usr/share/elasticsearch
 
@@ -42,7 +42,9 @@ USER 1000
 ENV ES_HOME /usr/share/elasticsearch
 ENV ES_VERSION elasticsearch-6.2.4
 RUN \
-  wget --quiet --no-check-certificate https://artifacts.elastic.co/downloads/elasticsearch/$ES_VERSION.tar.gz | tar -C /tmp -xfz - && \
+  cd /tmp && \
+  wget -qO - https://artifacts.elastic.co/downloads/elasticsearch/$ES_VERSION.tar.gz | tar xfz -
+RUN \
   mv /tmp/$ES_VERSION/* $ES_HOME/
 ENV PATH $PATH:$ES_HOME/bin
 
