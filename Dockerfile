@@ -30,7 +30,7 @@ ENV ES_JAVA_OPTS -Xms512m -Xmx512m
 ##SETTING UP ELASTICSEARCH USER ACCOUNT
 RUN \
   groupadd -g 1000 elasticsearch && \
-  adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch
+  adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch && \
   mkdir -p /usr/share/elasticsearch/{data,logs} && \
   chown -R 1000:1000 /usr/share/elasticsearch && \
   chmod 0775 /usr/share/elasticsearch
