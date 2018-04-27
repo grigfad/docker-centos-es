@@ -2,7 +2,7 @@
 FROM centos:7.4.1708
 MAINTAINER Volodymyr Shevtsov <vova@shevtsov.eu>
 
-##SWITCHING TO SUPERUSER (EVEN THOUGH IT IS A DEFAULT)
+##SWITCHING TO SUPERUSER EXPLICITELY
 USER root
 
 ##INSTALLING SYSTEM TOOLS
@@ -35,7 +35,7 @@ RUN \
   chown -R 1000:1000 /usr/share/elasticsearch && \
   chmod 0775 /usr/share/elasticsearch
 
-##SWITCHING TO ELASTICSEARCH USER
+##SWITCHING TO ELASTICSEARCH USER EXPLICITELY
 USER 1000
 
 ##INSTALLING ELASTICSEARCH 6.2.4
@@ -43,8 +43,7 @@ ENV ES_HOME /usr/share/elasticsearch
 ENV ES_VERSION elasticsearch-6.2.4
 RUN \
   wget --quiet --no-check-certificate https://artifacts.elastic.co/downloads/elasticsearch/$ES_VERSION.tar.gz | tar -C /tmp -xfz - && \
-  rm -f $ES_VERSION.tar.gz && \
-  mv /tmp/$ES_VERSION/* $ES_HOME
+  mv /tmp/$ES_VERSION/* $ES_HOME/
 ENV PATH $PATH:$ES_HOME/bin
 
 ##CREATING PERSISTENT STORAGE
