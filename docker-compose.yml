@@ -2,7 +2,6 @@ services:
   vova-es-master-first:
     container_name: vova-es-master-first
     environment:
-      - cluster.name=vova-es-cluster
       - bootstrap.memory_lock=true
     build:
       context: .
@@ -21,7 +20,6 @@ services:
   vova-es-data-first:
     container_name: vova-es-data-first
     environment:
-      - cluster.name=vova-es-cluster
       - bootstrap.memory_lock=true
       - "discovery.zen.ping.unicast.hosts=vova-es-master-first"
     build:
@@ -38,7 +36,6 @@ services:
   vova-es-data-second:
     container_name: vova-es-data-second
     environment:
-      - cluster.name=vova-es-cluster
       - bootstrap.memory_lock=true
       - "discovery.zen.ping.unicast.hosts=vova-es-master-first"
     build:
