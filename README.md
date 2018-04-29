@@ -2,10 +2,8 @@
 <h1>CentOS-7.4.1708/Java-10.0.1/ElasticSearch-6.2.4 Docker Implementation from sources</h1>
 
 <h2>CLONE</h2>
-<ul>
-  <li>git clone https://github.com/grigfad/docker-centos-es.git</li>
-  <li>cd docker-centos-es/</li>
-</ul>
+<code>git clone https://github.com/grigfad/docker-centos-es.git</code>
+<code>cd docker-centos-es/</code>
 
 <h2>BUILD</h2>
 <ul>
@@ -20,5 +18,5 @@
 <h2>RUN SANDBOX CLUSTER</h2>
 <ul>
   <li>docker swarm init</li>
-  <li>docker stack deploy -c docker-compose.yml docker-centos-es</li>
+  <li>docker stack deploy -c docker-compose.yml es-cluster</li>
 </ul>
