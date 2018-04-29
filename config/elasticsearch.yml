@@ -86,3 +86,5 @@ discovery.zen.minimum_master_nodes: 1
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+
+discovery.type: single-node

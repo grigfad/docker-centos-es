@@ -28,7 +28,7 @@ ENV PATH $PATH:/usr/local/$JAVA_DIR/bin
 RUN \
   groupadd -g 1000 elasticsearch && \
   adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch && \
-  mkdir -p /usr/share/elasticsearch/{data,logs} && \
+  mkdir -p /usr/share/elasticsearch/data && \
   chown -R 1000:1000 /usr/share/elasticsearch && \
   chmod 0775 /usr/share/elasticsearch
 
@@ -50,8 +50,8 @@ VOLUME $ES_DIR/data
 
 
 ##LAST STEPS
+ENV discovery.type single-node
 WORKDIR $ES_DIR
 COPY config/* config/
-#CMD ["elasticsearch"]
 CMD ["elasticsearch"]
 EXPOSE 9200 9300
