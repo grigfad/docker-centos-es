@@ -11,11 +11,10 @@ RUN \
   yum install -y wget chkconfig tar
 
 ##INSTALLING JAVA 10.0.1
-ARG JAVA_VER 10.0.1
-ARG JAVA_DIR /usr/local/jdk-$JAVA_VER
+ARG JAVA_DIR /usr/local/jdk-10.0.1
 RUN \
   cd /usr/local && \
-  wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-${JAVA_VER}_linux-x64_bin.tar.gz | tar xfz -
+  wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz | tar xfz -
 RUN \
   alternatives --install /usr/bin/java java $JAVA_DIR/bin/java 2 && \
   echo | alternatives --config java && \
