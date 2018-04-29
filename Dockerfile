@@ -11,21 +11,19 @@ RUN \
   yum install -y wget chkconfig tar
 
 ##INSTALLING JAVA 10.0.1
-ENV JAVA_HOME /usr/local/jdk-10.0.1
+ARG JAVA_VER 10.0.1
+ARG JAVA_DIR /usr/local/jdk-$JAVA_VER
 RUN \
   cd /usr/local && \
-  wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz | tar xfz -
+  wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-${JAVA_VER}_linux-x64_bin.tar.gz | tar xfz -
 RUN \
-  alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 2 && \
+  alternatives --install /usr/bin/java java $JAVA_DIR/bin/java 2 && \
   echo | alternatives --config java && \
-  alternatives --install /usr/bin/jar jar $JAVA_HOME/bin/jar 2 && \
-  alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 2 && \
-  alternatives --set jar $JAVA_HOME/bin/jar && \
-  alternatives --set javac $JAVA_HOME/bin/javac
-ENV PATH $PATH:/usr/local/$JAVA_VERSION/bin
-
-##SETTING HEAPSIZE HALF THE SIZE OF MEMORY
-ENV ES_JAVA_OPTS -Xms512m -Xmx512m
+  alternatives --install /usr/bin/jar jar $JAVA_DIR/bin/jar 2 && \
+  alternatives --install /usr/bin/javac javac $JAVA_DIR/bin/javac 2 && \
+  alternatives --set jar $JAVA_DIR/bin/jar && \
+  alternatives --set javac $JAVA_DIR/bin/javac
+ENV PATH $PATH:/usr/local/$JAVA_DIR/bin
 
 ##SETTING UP ELASTICSEARCH USER ACCOUNT
 RUN \
@@ -39,22 +37,22 @@ RUN \
 USER 1000
 
 ##INSTALLING ELASTICSEARCH 6.2.4
-ENV ES_HOME /usr/share/elasticsearch
-ENV ES_VERSION elasticsearch-6.2.4
+ARG ES_VER 6.2.4
+ARG ES_DIR /usr/share/elasticsearch
 RUN \
   cd /tmp && \
-  wget -qO - https://artifacts.elastic.co/downloads/elasticsearch/$ES_VERSION.tar.gz | tar xfz -
+  wget -qO - https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VER}.tar.gz | tar xfz -
 RUN \
-  mv /tmp/$ES_VERSION/* $ES_HOME/
-ENV PATH $PATH:$ES_HOME/bin
+  mv /tmp/elasticsearch-${ES_VER}/* $ES_DIR/
+ENV PATH $PATH:$ES_DIR/bin
 
 ##CREATING PERSISTENT STORAGE
-VOLUME $ES_HOME/data
+VOLUME $ES_DIR/data
 
 
 ##LAST STEPS
-WORKDIR $ES_HOME
+WORKDIR $ES_DIR
 COPY config/* config/
 #CMD ["elasticsearch"]
-CMD ["elasticsearch", "-Ecluster.name=es-cluster", "-Enode.name=${HOSTNAME}", "-Epath.data=data", "-Epath.logs=logs", "-Enetwork.host=0.0.0.0", "-Ediscovery.zen.ping.unicast.hosts=es-master"]
+CMD ["elasticsearch"]
 EXPOSE 9200 9300
