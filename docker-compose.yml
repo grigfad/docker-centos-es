@@ -1,3 +1,63 @@
 services:
+  vova-es-master-first:
+    container_name: vova-es-master-first
+    environment:
+      - cluster.name=vova-es-cluster
+      - bootstrap.memory_lock=true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ulimits:
+      memlock:
+	soft: -1
+        hard: -1
+    volumes:
+      - vova-es-volume-master:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - vova-es-net
+  vova-es-data-first:
+    container_name: vova-es-data-first
+    environment:
+      - cluster.name=vova-es-cluster
+      - bootstrap.memory_lock=true
+      - "discovery.zen.ping.unicast.hosts=vova-es-master-first"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ulimits:
+      memlock:
+	soft: -1
+        hard: -1
+    volumes:
+      - vova-es-volume-data-first:/usr/share/elasticsearch/data
+    networks:
+      - vova-es-net
+  vova-es-data-second:
+    container_name: vova-es-data-second
+    environment:
+      - cluster.name=vova-es-cluster
+      - bootstrap.memory_lock=true
+      - "discovery.zen.ping.unicast.hosts=vova-es-master-first"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - vova-es-volume-data-second:/usr/share/elasticsearch/data
+    networks:
+      - vova-es-net
 volumes:
+  vova-es-volume-master:
+    driver: local
+  vova-es-volume-data-first:                            
+    driver: local
+  vova-es-volume-data-second:                            
+    driver: local
 networks:
+  vova-es-net
