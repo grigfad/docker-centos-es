@@ -11,7 +11,7 @@ RUN \
   yum install -y wget chkconfig tar
 
 ##INSTALLING JAVA 10.0.1
-ARG JAVA_DIR /usr/local/jdk-10.0.1
+ARG JAVA_DIR="/usr/local/jdk-10.0.1"
 RUN \
   cd /usr/local && \
   wget -qO - https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10/openjdk-10.0.1_linux-x64_bin.tar.gz | tar xfz -
@@ -36,8 +36,8 @@ RUN \
 USER 1000
 
 ##INSTALLING ELASTICSEARCH 6.2.4
-ARG ES_VER 6.2.4
-ARG ES_DIR /usr/share/elasticsearch
+ARG ES_VER="6.2.4"
+ARG ES_DIR="/usr/share/elasticsearch"
 RUN \
   cd /tmp && \
   wget -qO - https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VER}.tar.gz | tar xfz -
