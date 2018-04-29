@@ -55,5 +55,6 @@ VOLUME $ES_HOME/data
 ##LAST STEPS
 WORKDIR $ES_HOME
 COPY config/* config/
-CMD ["elasticsearch"]
+#CMD ["elasticsearch"]
+CMD ["elasticsearch", "-Ecluster.name=es-cluster", "-Enode.name=${HOSTNAME}", "-Epath.data=data", "-Epath.logs=logs", "-Enetwork.host=0.0.0.0", "-Ediscovery.zen.ping.unicast.hosts=es-master"]
 EXPOSE 9200 9300
