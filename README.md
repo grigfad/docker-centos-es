@@ -2,8 +2,10 @@
 <h1>CentOS-7.4.1708/Java-10.0.1/ElasticSearch-6.2.4 Docker Implementation from sources</h1>
 
 <h2>CLONE</h2>
-<code>git clone https://github.com/grigfad/docker-centos-es.git</code>
-<code>cd docker-centos-es/</code>
+<pre><code>git clone https://github.com/grigfad/docker-centos-es.git
+cd docker-centos-es/
+</code></pre>
+
 
 <h2>BUILD</h2>
 <ul>
